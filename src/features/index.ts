@@ -1,0 +1,5 @@
+export * from './home'
+export {Orders} from './orders'
+export {Categories} from './categories'
+export {ProductView} from './product-view'
+export {Formalities} from './formalities'

@@ -1,0 +1,1 @@
+export type {ProductsGetWeeklyNewProducts, ProductResponseModel} from './products.model'
