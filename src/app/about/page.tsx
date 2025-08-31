@@ -56,33 +56,33 @@ export default function AboutPage() {
                 <Space direction="vertical" size="small" style={{width: '100%'}}>
                   <Button
                     type="link"
-                    href="/assets/docs/Договор с Поставщиками ЮР ЛИЦО.docx"
+                    href="/docs/cooperation-agreement"
                     target="_blank"
-                    icon={<FileTextOutlined />}
+                    icon={<FileTextOutlined/>}
                   >
                     Договор с Поставщиками ЮР ЛИЦО
                   </Button>
                   <Button
                     type="link"
-                    href="/assets/docs/Политика_Безопасности_Маркет_кж_.docx"
+                    href="/docs/public-offer"
                     target="_blank"
-                    icon={<FileTextOutlined />}
+                    icon={<FileTextOutlined/>}
                   >
                     Публичная оферта MarketKG
                   </Button>
                   <Button
                     type="link"
-                    href="/assets/docs/Политика_конфиденциальность_MarketKG_Partner.docx"
+                    href="/docs/security-policy"
                     target="_blank"
-                    icon={<FileTextOutlined />}
+                    icon={<FileTextOutlined/>}
                   >
                     Политика Безопасности MarketKG
                   </Button>
                   <Button
                     type="link"
-                    href="/assets/docs/Публичная_оферта_Маркет_кж_Анарбек_.docx"
+                    href="/docs/privacy-policy"
                     target="_blank"
-                    icon={<FileTextOutlined />}
+                    icon={<FileTextOutlined/>}
                   >
                     Политика конфиденциальности MarketKG
                   </Button>
