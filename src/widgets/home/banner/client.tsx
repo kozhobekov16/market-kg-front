@@ -2,9 +2,8 @@
 
 import {Carousel, Image} from "antd";
 import {useQuery} from "@tanstack/react-query";
-import {EndPath} from "@/shared/api/endpoints";
-import {$api} from "@/shared";
 import {BannerResponseModel} from "@/models";
+import {bannerApiResponse} from "@/widgets/home/banner/api";
 
 const content = [
   {
@@ -37,12 +36,10 @@ const content = [
   },
 ];
 
-export const Banner = () => {
+export const BannerClient = ({bannerResponse}: {bannerResponse: ResponseModel<BannerResponseModel>}) => {
   useQuery({
     queryKey: ['banner'],
-    queryFn: async () => {
-      return (await $api.get<ResponseModel<BannerResponseModel>>(EndPath.Banners.GetBanners)).data
-    }
+    queryFn: bannerApiResponse
   })
 
   return (

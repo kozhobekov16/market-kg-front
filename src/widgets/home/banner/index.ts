@@ -1,0 +1,1 @@
+export {BannerServer as Banner} from './server'

@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react";
 import {Space} from "antd";
 import Link from "next/link";
@@ -10,13 +8,14 @@ import {Profile} from "./profile";
 import {Basket} from "./basket";
 
 export const Header: React.FC = () => {
+
   return (
     <header className="border-b border-gray-200 py-3 sticky top-0 z-[99] bg-white">
       <div
         className="bg-white --container">
         <div className="flex justify-between items-center">
           <Link href="/" className="hidden md:block">
-            <Image width={110} height={110} src="/assets/logo.png" alt="logo"/>
+            <Image width={110} height={110} src="/assets/logo.png" alt="logo" priority={true}/>
           </Link>
           <MenuHeader/>
           <Space>

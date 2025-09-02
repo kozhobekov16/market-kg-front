@@ -11,6 +11,7 @@ export class EndPath {
     static GetProducts = this.products('GetProducts')
     static GetWeeklyNewProducts = this.products('GetWeeklyNewProducts')
     static GetPopularProducts = this.products('GetPopularProducts/Popular')
+    static GetProductsById = this.products('GetProductsById')
   }
   static Banners = class {
     private static banners = baseUrl('/Banners/')

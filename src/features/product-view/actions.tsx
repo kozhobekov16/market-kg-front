@@ -1,13 +1,12 @@
-'use client'
-
 import {Button, Card, Flex, Radio, Space, Typography} from "antd";
 import {SlBasket} from "react-icons/sl";
 import {FcOk} from "react-icons/fc";
+import {ProductResponseModel} from "@/models";
 
-export const ProductActions = () => {
+export const ProductActions = ({price}: {price: ProductResponseModel['Price']}) => {
   return (
-    <Card className={'mt-2'}>
-      <Typography.Title>14100 сом</Typography.Title>
+    <Card className={'mt-6'}>
+      <Typography.Title>{price} сом</Typography.Title>
       <Flex vertical={true} gap={10}>
         <Radio.Group name="radiogroup" defaultValue={1}>
           <Space direction="vertical">

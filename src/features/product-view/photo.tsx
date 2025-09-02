@@ -5,17 +5,11 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import {Divider, Image} from "antd";
+import {ProductResponseModel} from "@/models";
 
-export const ProductPhoto = () => {
+export const ProductPhoto = ({images}: { images: ProductResponseModel['Images'] }) => {
   const [navSlider, setNavSlider] = useState<Slider | null>(null);
   const mainSliderRef = useRef<Slider | null>(null);
-
-  const images = [
-    '/assets/iphone.png',
-    '/assets/mac.png',
-    '/assets/vr.png',
-    '/assets/ipad.png',
-  ];
 
   return (
     <div className="p-4 bg-white rounded-lg">
@@ -33,8 +27,8 @@ export const ProductPhoto = () => {
         {images.map((src, index) => (
           <div key={index} className="relative">
             <Image
-              src={src}
-              alt={`Image ${index + 1}`}
+              src={src.PhotoBase64}
+              alt={src.Url}
               className="!w-5/12 object-cover rounded-lg mx-auto"
             />
           </div>
@@ -56,8 +50,8 @@ export const ProductPhoto = () => {
           <div key={index} className="cursor-pointer">
             <Image
               preview={false}
-              src={src}
-              alt={`Thumbnail ${index + 1}`}
+              src={src.PhotoBase64}
+              alt={src.Url}
               className="!w-44 h-[180px] object-cover transition-transform transform hover:scale-105"
             />
           </div>

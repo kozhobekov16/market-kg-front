@@ -17,6 +17,7 @@ export type ProductResponseModel = {
   Name: string
   Model: string
   Color: string
+  Description: string
   Price: number
   Images: ImagesModel
   IsActive: boolean

@@ -1,18 +1,19 @@
-"use client"
+'use client';
 
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {Button, Drawer, Image, Menu, MenuProps, Spin} from "antd";
 import {AiOutlineHeart, AiOutlineHome, AiOutlineInfoCircle, AiOutlineMenu, AiOutlineShop,} from "react-icons/ai";
 import {MdOutlineCategory} from "react-icons/md";
 import Link from "next/link";
-import {useQuery} from "@tanstack/react-query";
-import {$api} from "@/shared";
-import {CategoriesResponseModel, Category} from "@/models";
-import {EndPath} from "@/shared/api/endpoints";
+import {Category} from "@/models";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-export const MenuHeader = () => {
+interface MenuClientProps {
+  initialCategories: Category[];
+}
+
+export const MenuClient = ({ initialCategories }: MenuClientProps) => {
   const [current, setCurrent] = useState("home");
   const [isMobile, setIsMobile] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -23,13 +24,6 @@ export const MenuHeader = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const {data: categoriesData} = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      return (await $api.get<ResponseModel<CategoriesResponseModel>>(EndPath.Categories.GetCategoriesList)).data;
-    },
-  });
 
   const mapCategoriesToMenuItems = useCallback((
     categories: Category[],
@@ -59,8 +53,8 @@ export const MenuHeader = () => {
   }, []);
 
   const menuItems: MenuItem[] = useMemo(() => {
-    const dynamicCategoryItems = categoriesData?.data?.Categories
-      ? mapCategoriesToMenuItems(categoriesData.data.Categories)
+    const dynamicCategoryItems = initialCategories?.length
+      ? mapCategoriesToMenuItems(initialCategories)
       : [];
 
     return [
@@ -91,7 +85,7 @@ export const MenuHeader = () => {
         icon: <AiOutlineInfoCircle/>,
       },
     ];
-  }, [categoriesData?.data.Categories, mapCategoriesToMenuItems]);
+  }, [initialCategories, mapCategoriesToMenuItems]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);

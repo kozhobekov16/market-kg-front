@@ -1,35 +1,39 @@
-"use client"
+'use client';
 
 import {Badge, Button, Typography, Space, Row, Col, Image, Drawer, Spin, notification, Popconfirm} from 'antd';
 import {SlBasket} from "react-icons/sl";
 import {useRouter} from 'next/navigation'
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {$api, EndPath, ShowTotalCount} from "@/shared";
-import {useAuthUser} from "@/store";
-import {GetShoppingCartsByUserIdModel} from "@/models";
 import {useState} from "react";
 import {FaShopify} from "react-icons/fa";
 import {TbShoppingCartCheck} from "react-icons/tb";
 import {DeleteOutlined} from "@ant-design/icons";
+import {GetShoppingCartsByUserIdModel} from "@/models";
 
 const {Text, Title} = Typography;
 
-export const Basket = () => {
-  const {user} = useAuthUser();
+interface BasketClientProps {
+  initialData: ResponseModel<GetShoppingCartsByUserIdModel> | null;
+}
+
+export function BasketClient({ initialData }: BasketClientProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const [api, contextHolder] = notification.useNotification();
 
+  // Используем initialData как начальное значение
   const {data, isLoading} = useQuery({
     queryKey: ['basket'],
     queryFn: async () => {
-      const response = await $api.get<ResponseModel<GetShoppingCartsByUserIdModel>>(EndPath.ShopingCarts.GetShoppingCartsByUserId, {
-        params: {userId: user?.UserId}
-      });
+      const response = await $api.get<ResponseModel<GetShoppingCartsByUserIdModel>>(
+        EndPath.ShopingCarts.GetShoppingCartsByUserId
+      );
       return response.data;
     },
-    enabled: !!user?.UserId
+    initialData: initialData || undefined,
+    enabled: false // Отключаем автоматический запрос, т.к. данные уже есть
   });
 
   const totalItems = data?.data?.MagazineProducts?.reduce((acc: number, current: any) => acc + (current.Products?.length || 0), 0) || 0;
@@ -54,7 +58,6 @@ export const Basket = () => {
       });
     }
   });
-
 
   const content = (
     <div className="max-h-[90vh] overflow-y-auto">
@@ -171,4 +174,4 @@ export const Basket = () => {
       </Drawer>
     </>
   );
-};
+}

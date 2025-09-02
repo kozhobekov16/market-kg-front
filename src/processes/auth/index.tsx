@@ -1,13 +1,15 @@
+'use client';
+
 import React, {useState} from 'react';
 import {Button, Divider, Modal, Space, notification} from "antd";
-import {EndPath, InputField} from "@/shared";
+import {InputField} from "@/shared";
 import {useYup} from "@/hooks";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useMutation} from "@tanstack/react-query";
-import axios from "axios";
 import {useAuthUser} from "@/store";
-import {UserModel} from "@/models";
+import {authApi} from './api';
+import Cookies from 'js-cookie';
 
 interface RequestForm {
   phonesNumber: string;
@@ -33,53 +35,31 @@ export const AuthProcess = ({openAuthModal, setOpenAuthModal}: Props) => {
 
   const sendOtpMutation = useMutation({
     mutationFn: async (data: RequestForm) => {
-      const formData = new FormData();
-      formData.append('phonesNumber', data.phonesNumber);
-      await axios.post(EndPath.Auth.SendOTP, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      await authApi.sendOtp(data.phonesNumber);
     },
     onSuccess: () => {
-      api.success({
-        message: 'Код успешно отправлен!',
-        duration: 5
-      });
+      api.success({ message: 'Код успешно отправлен!', duration: 5 });
       setStep("verify");
     },
     onError: () => {
-      api.error({
-        message: 'Ошибка при отправке кода',
-        duration: 5
-      });
+      api.error({ message: 'Ошибка при отправке кода', duration: 5 });
     }
   });
 
   const verifyOtpMutation = useMutation({
     mutationFn: async (data: RequestForm) => {
-      const res = await axios.post(EndPath.Auth.RegistrUser, {
-        PhoneNumber: data.phonesNumber,
-        CodeOTP: Number(data.CodeOTP),
-        HasAgreedToPrivacyPolicy: true,
-        ConsentToTheUserAgreement: true
-      });
-
-      return res.data;
+      return await authApi.verifyOtp(data.phonesNumber, data.CodeOTP!);
     },
-    onSuccess: (data: ResponseModel<UserModel>) => {
-      setUser(data.data)
-      api.success({
-        message: 'Вы успешно вошли!',
-        duration: 5
-      });
+    onSuccess: (data) => {
+      setUser(data.data);
+      Cookies.set('user', JSON.stringify(data.data), { expires: 1, path: '/' });
+      api.success({ message: 'Вы успешно вошли!', duration: 5 });
       reset();
       setStep("send");
       setOpenAuthModal(false);
     },
     onError: () => {
-      api.error({
-        message: 'Неверный код',
-        duration: 5
-      });
+      api.error({ message: 'Неверный код', duration: 5 });
     }
   });
 

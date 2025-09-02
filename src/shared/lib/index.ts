@@ -1,0 +1,1 @@
+export {getAuthUserFromCookies} from './auth'
