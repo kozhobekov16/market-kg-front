@@ -52,7 +52,7 @@ export const AuthProcess = ({openAuthModal, setOpenAuthModal}: Props) => {
     },
     onSuccess: (data) => {
       setUser(data.data);
-      Cookies.set('user', JSON.stringify(data.data), { expires: 1, path: '/' });
+      Cookies.set('user', JSON.stringify(data.data));
       api.success({ message: 'Вы успешно вошли!', duration: 5 });
       reset();
       setStep("send");

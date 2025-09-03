@@ -1,1 +1,1 @@
-export {getAuthUserFromCookies} from './auth'
+export {getAuthUser} from './get-user'
