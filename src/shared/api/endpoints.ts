@@ -17,6 +17,10 @@ export class EndPath {
     private static banners = baseUrl('/Banners/')
     static GetBanners = this.banners('GetBaners')
   }
+  static AppCoorperation = class {
+    private static appcoorperation = baseUrl('/AppCoorperation/')
+    static CreateAppCoorperation = this.appcoorperation('CreateAppCoorperation')
+  }
   static Categories = class {
     private static categories = baseUrl('/Categories/')
     static GetCategoriesList = this.categories('GetCategoriesList')

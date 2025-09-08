@@ -1,12 +1,12 @@
 "use client"
 
-import {Card, Form, Input, Button, Row, Col, Typography, Space} from 'antd';
-import {MailOutlined, PhoneOutlined, ShopOutlined, FileTextOutlined} from '@ant-design/icons';
-import {TbSquareRoundedCheckFilled} from "react-icons/tb";
+import {Card, Button, Row, Col, Typography, Space} from 'antd';
+import {MailOutlined, PhoneOutlined, FileTextOutlined} from '@ant-design/icons';
 import '@ant-design/v5-patch-for-react-19';
+import {AboutForm} from "@/app/about/form";
+import Image from "next/image";
 
 const {Title, Paragraph, Text} = Typography;
-const {TextArea} = Input;
 
 export default function AboutPage() {
   return (
@@ -22,7 +22,7 @@ export default function AboutPage() {
             <Card
               title={
                 <Space>
-                  <ShopOutlined style={{fontSize: 24, color: '#1890ff'}}/>
+                  <Image src={'/assets/logo.png'} alt={'logo'} width={50} height={50}/>
                   <Text strong>Наша компания</Text>
                 </Space>
               }
@@ -90,51 +90,7 @@ export default function AboutPage() {
               </div>
             </Card>
           </Col>
-
-          <Col xs={24} md={24} className={'sm:mt-0 mt-5 md:mt-4'}>
-            <Card
-              title={<Text strong>Свяжитесь с нами</Text>}
-              style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'}}
-            >
-              <Form layout="vertical">
-                <Form.Item
-                  label="Ваше имя"
-                  name="name"
-                  rules={[{required: true, message: 'Пожалуйста, введите ваше имя'}]}
-                >
-                  <Input placeholder="Введите имя"/>
-                </Form.Item>
-
-                <Form.Item
-                  label="Ваш email"
-                  name="email"
-                  rules={[
-                    {required: true, message: 'Пожалуйста, введите ваш email'},
-                    {type: 'email', message: 'Введите корректный email'},
-                  ]}
-                >
-                  <Input placeholder="Введите email"/>
-                </Form.Item>
-
-                <Form.Item
-                  label="Сообщение"
-                  name="message"
-                  rules={[{required: true, message: 'Пожалуйста, введите сообщение'}]}
-                >
-                  <TextArea rows={4} placeholder="Введите ваше сообщение"/>
-                </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    iconPosition={'end'} type="primary" htmlType="submit" block size={'large'}
-                    icon={<TbSquareRoundedCheckFilled/>}
-                  >
-                    Отправить
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Card>
-          </Col>
+          <AboutForm/>
         </Row>
       </div>
     </div>
