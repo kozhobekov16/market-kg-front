@@ -17,11 +17,11 @@ export const Header: React.FC = () => {
           <Link href="/" className="hidden md:block">
             <Image width={110} height={110} src="/assets/logo.png" alt="logo" priority={true}/>
           </Link>
-          <MenuHeader/>
+          {/*<MenuHeader/>*/}
           <Space>
-            <SearchGlobal/>
-            <Basket/>
-            <Profile/>
+            {/*<SearchGlobal/>*/}
+            {/*<Basket/>*/}
+            {/*<Profile/>*/}
           </Space>
         </div>
       </div>

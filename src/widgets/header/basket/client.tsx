@@ -5,7 +5,7 @@ import {SlBasket} from "react-icons/sl";
 import {useRouter} from 'next/navigation'
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {$api, EndPath, ShowTotalCount} from "@/shared";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {FaShopify} from "react-icons/fa";
 import {TbShoppingCartCheck} from "react-icons/tb";
 import {DeleteOutlined} from "@ant-design/icons";
@@ -14,26 +14,25 @@ import {GetShoppingCartsByUserIdModel} from "@/models";
 const {Text, Title} = Typography;
 
 interface BasketClientProps {
-  initialData: ResponseModel<GetShoppingCartsByUserIdModel> | null;
+  userId: string
 }
 
-export function BasketClient({ initialData }: BasketClientProps) {
+export function BasketClient({userId}: BasketClientProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const [api, contextHolder] = notification.useNotification();
 
-  // Используем initialData как начальное значение
-  const {data, isLoading} = useQuery({
-    queryKey: ['basket'],
+  const {data, isLoading, refetch} = useQuery({
+    queryKey: ['basket', userId],
     queryFn: async () => {
       const response = await $api.get<ResponseModel<GetShoppingCartsByUserIdModel>>(
-        EndPath.ShopingCarts.GetShoppingCartsByUserId
+        EndPath.ShopingCarts.GetShoppingCartsByUserId,
+        {params: {userId}}
       );
       return response.data;
     },
-    initialData: initialData || undefined,
-    enabled: false // Отключаем автоматический запрос, т.к. данные уже есть
+    enabled: !!userId
   });
 
   const totalItems = data?.data?.MagazineProducts?.reduce((acc: number, current: any) => acc + (current.Products?.length || 0), 0) || 0;
@@ -41,11 +40,11 @@ export function BasketClient({ initialData }: BasketClientProps) {
   const removeMutation = useMutation({
     mutationFn: async (cartId: number) => {
       await $api.delete(EndPath.ShopingCarts.DeletePoductCart, {
-        params: { cartId }
+        params: {cartId}
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['basket'] });
+      queryClient.invalidateQueries({queryKey: ['basket']});
       api.success({
         message: 'Товар удален из корзины',
         duration: 3
@@ -78,9 +77,9 @@ export function BasketClient({ initialData }: BasketClientProps) {
                 </Title>
               </div>
               <Space direction="vertical" className="w-full">
-                {magazineGroup.Products.map((product) => (
+                {magazineGroup.Products.map((product, index) => (
                   <div
-                    key={product.Id}
+                    key={index}
                     className="bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-200"
                   >
                     <Row gutter={[16, 4]} align="middle">
@@ -111,7 +110,7 @@ export function BasketClient({ initialData }: BasketClientProps) {
                           <Button
                             type="text"
                             danger
-                            icon={<DeleteOutlined />}
+                            icon={<DeleteOutlined/>}
                             className="absolute top-2 right-2"
                             loading={removeMutation.isPending && removeMutation.variables === product.CartId}
                           />
@@ -153,7 +152,10 @@ export function BasketClient({ initialData }: BasketClientProps) {
         shape="circle"
         size="large"
         type="text"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          return refetch();
+        }}
         className="relative p-0 border-none transition-transform duration-200 hover:scale-110"
       >
         <Badge count={data?.data?.TotalQuantyProduct} size="small" color="blue" offset={[8, 0]}>
