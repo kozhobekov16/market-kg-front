@@ -4,7 +4,7 @@ import {Banner, FeaturesBlock} from "@/widgets/home";
 export default function Home() {
   return (
     <>
-      {/*<Banner/>*/}
+      <Banner/>
       <Categories/>
       {/*<NewProducts/>*/}
       {/*<FeaturesBlock/>*/}
