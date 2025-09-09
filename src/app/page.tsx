@@ -8,7 +8,7 @@ export default function Home() {
       <Categories/>
       <NewProducts/>
       <FeaturesBlock/>
-      {/*<PopularProducts/>*/}
+      <PopularProducts/>
     </>
   );
 }
