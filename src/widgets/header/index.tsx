@@ -19,9 +19,9 @@ export const Header: React.FC = () => {
           </Link>
           {/*<MenuHeader/>*/}
           <Space>
-            {/*<SearchGlobal/>*/}
-            {/*<Basket/>*/}
-            {/*<Profile/>*/}
+            <SearchGlobal/>
+            <Basket/>
+            <Profile/>
           </Space>
         </div>
       </div>
