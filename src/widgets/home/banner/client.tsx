@@ -1,9 +1,9 @@
 "use client"
 
-import {Carousel, Image} from "antd";
-import {useQuery} from "@tanstack/react-query";
-import {BannerResponseModel} from "@/models";
-import {bannerApiResponse} from "@/widgets/home/banner/api";
+import { Carousel, Image } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { BannerResponseModel } from "@/models";
+import { bannerApiResponse } from "@/widgets/home/banner/api";
 
 const content = [
   {
@@ -36,7 +36,7 @@ const content = [
   },
 ];
 
-export const BannerClient = ({bannerResponse}: {bannerResponse: ResponseModel<BannerResponseModel>}) => {
+export const BannerClient = ({ bannerResponse }: { bannerResponse: ResponseModel<BannerResponseModel> }) => {
   useQuery({
     queryKey: ['banner'],
     queryFn: bannerApiResponse
@@ -97,10 +97,11 @@ export const BannerClient = ({bannerResponse}: {bannerResponse: ResponseModel<Ba
             </div>
             <div className="w-full sm:max-w-[40%] flex items-center justify-center mt-6 sm:mt-0">
               <Image
-                preview={false}
                 src={item.image}
                 alt={item.title}
-                className="w-full max-w-[200px] sm:max-w-[300px] lg:max-w-[400px] xl:max-w-[300px] 2xl:max-w-[400px] rounded-lg object-cover border-none"
+                loading="lazy"
+                sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
+                className="w-full max-w-[200px] sm:max-w-[300px] lg:max-w-[400px] xl:max-w-[300px] 2xl:max-w-[400px] rounded-lg object-cover"
               />
             </div>
           </div>
